@@ -2,12 +2,12 @@ const fs = require('fs');
 const path = require('path');
 const vm = require('vm');
 const { performance } = require('perf_hooks');
-const { hrtime } = require('process');
+const process = require('process');
 
 const codeFileName = process.argv[2] || 'game.js';
 
-const inputFilePath = path.join('/sandbox/input/', codeFileName);
-const outputFilePath = path.join('/sandbox/output/', 'output.json');
+const inputFilePath = path.join('/sandbox/input', codeFileName);
+const outputFilePath = path.join('/sandbox/output', 'output.json');
 
 // Read the code file
 
