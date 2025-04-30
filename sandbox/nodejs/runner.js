@@ -16,6 +16,7 @@ function readCodeFile() {
   try {
     code = fs.readFileSync(inputFilePath, 'utf8');
   } catch (e) {
+    3;
     console.error(`Error reading file: ${inputFilePath}`, e);
     process.exit(1);
   }
