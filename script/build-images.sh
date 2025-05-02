@@ -7,3 +7,4 @@ echo $SANDBOX_DIR
 echo "Building Node.js sandbox image"
 cd "$SANDBOX_DIR/nodejs"
 docker build -t code-executor-nodejs:latest .
+

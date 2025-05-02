@@ -5,4 +5,7 @@ export const schema = z.object({
   PORT: z.string().min(0, {
     message: 'PORT must be set',
   }),
+  DOCKER_PATH: z.string().min(0, {
+    message: 'default docker path must be set',
+  }),
 });
