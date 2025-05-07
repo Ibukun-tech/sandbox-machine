@@ -1,1 +1,1 @@
-export * from './docker.type.';
+export * from './docker.module';

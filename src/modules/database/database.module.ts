@@ -1,3 +1,4 @@
+import { BullModule } from '@nestjs/bullmq';
 import { Logger, Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 
@@ -15,11 +16,16 @@ import { DataSourceOptions } from 'typeorm';
 
         const configuration: DataSourceOptions = {
           type: 'postgres',
-          host: '',
+          host: configSevice.get<string>('DB_HOST'),
           port: 5432,
+          username: configSevice.get<string>('DB_USER'),
+          password: configSevice.get<string>('DB_PASSWORD'),
+          database: configSevice.get<string>('DB_NAME'),
+
+          // synchronize: true,
+          // migrationsRun: true,
         };
 
-        // Database connected successfully to ${dbConfig.host}:${dbConfig.port}`
         logger.log(
           ` ✅ Database connected successfully to ${configuration.host}:${configuration.port}`,
         );

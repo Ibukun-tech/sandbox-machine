@@ -1,99 +1,163 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="120" alt="Nest Logo" /></a>
-</p>
+# Real-Time Code Collaborations
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+A powerful real-time code collaboration platform built with NestJS that allows developers to collaborate, execute code in isolated environments, and share results in real-time.
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://coveralls.io/github/nestjs/nest?branch=master" target="_blank"><img src="https://coveralls.io/repos/github/nestjs/nest/badge.svg?branch=master#9" alt="Coverage" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg" alt="Donate us"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow" alt="Follow us on Twitter"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+## Features
 
-## Description
+- **Real-time Code Collaboration**: Work together with other developers in real-time
+- **Secure Code Execution**: Run code in isolated Docker containers for security
+- **Multi-language Support**: Execute code in multiple programming languages:
+  - JavaScript/Node.js
+  - Python
+  - Go
+- **Queue Management**: Efficient code execution queue using BullMQ and Redis
+- **API Documentation**: Swagger UI for easy API exploration
+- **Authentication**: Secure user authentication system
+- **Database Integration**: PostgreSQL database for persistent storage
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+## Prerequisites
 
-## Project setup
+- Node.js (v16 or higher)
+- Docker and Docker Compose
+- Redis
+- PostgreSQL
+
+## Installation
+
+1. Clone the repository:
 
 ```bash
-$ yarn install
+git clone <repository-url>
+cd real-time-code-collaborations
 ```
 
-## Compile and run the project
+2. Install dependencies:
 
 ```bash
-# development
-$ yarn run start
-
-# watch mode
-$ yarn run start:dev
-
-# production mode
-$ yarn run start:prod
+yarn install
+# or
+npm install
 ```
 
-## Run tests
+3. Set up environment variables:
+
+Create a `.env` file in the root directory with the following variables:
+
+```env
+PORT=3000
+DOCKER_PATH=./tmp/code-executions
+REDIS_HOST=localhost
+REDIS_PORT=6379
+DB_NAME=sandbox_db
+DB_HOST=localhost
+DB_PORT=5432
+DB_USER=root
+DB_PASSWORD=secret
+```
+
+## Running the Application
+
+### Start Required Services
+
+Start Redis and PostgreSQL using Docker Compose:
 
 ```bash
-# unit tests
-$ yarn run test
-
-# e2e tests
-$ yarn run test:e2e
-
-# test coverage
-$ yarn run test:cov
+docker-compose up -d
 ```
 
-## Deployment
+This will start:
 
-When you're ready to deploy your NestJS application to production, there are some key steps you can take to ensure it runs as efficiently as possible. Check out the [deployment documentation](https://docs.nestjs.com/deployment) for more information.
+- PostgreSQL database on port 5432
+- Redis server on port 6379
 
-If you are looking for a cloud-based platform to deploy your NestJS application, check out [Mau](https://mau.nestjs.com), our official platform for deploying NestJS applications on AWS. Mau makes deployment straightforward and fast, requiring just a few simple steps:
+### Start the Application
+
+Development mode:
 
 ```bash
-$ yarn install -g mau
-$ mau deploy
+yarn start:dev
+# or
+npm run start:dev
 ```
 
-With Mau, you can deploy your application in just a few clicks, allowing you to focus on building features rather than managing infrastructure.
+Production mode:
 
-## Resources
+```bash
+yarn build
+yarn start:prod
+# or
+npm run build
+npm run start:prod
+```
 
-Check out a few resources that may come in handy when working with NestJS:
+## API Documentation
 
-- Visit the [NestJS Documentation](https://docs.nestjs.com) to learn more about the framework.
-- For questions and support, please visit our [Discord channel](https://discord.gg/G7Qnnhy).
-- To dive deeper and get more hands-on experience, check out our official video [courses](https://courses.nestjs.com/).
-- Deploy your application to AWS with the help of [NestJS Mau](https://mau.nestjs.com) in just a few clicks.
-- Visualize your application graph and interact with the NestJS application in real-time using [NestJS Devtools](https://devtools.nestjs.com).
-- Need help with your project (part-time to full-time)? Check out our official [enterprise support](https://enterprise.nestjs.com).
-- To stay in the loop and get updates, follow us on [X](https://x.com/nestframework) and [LinkedIn](https://linkedin.com/company/nestjs).
-- Looking for a job, or have a job to offer? Check out our official [Jobs board](https://jobs.nestjs.com).
+Once the application is running, you can access the Swagger API documentation at:
 
-## Support
+```
+http://localhost:3000/docs/v1
+```
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+## Code Execution
 
-## Stay in touch
+The platform supports executing code in isolated Docker containers. The supported languages are:
 
-- Author - [Kamil Myśliwiec](https://twitter.com/kammysliwiec)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+- Node.js
+- Python
+- Go
+
+The code execution service uses Docker containers to run code securely and BullMQ with Redis for queue management to handle multiple execution requests efficiently.
+
+## Project Structure
+
+```
+├── src/
+│   ├── modules/
+│   │   ├── Docker/         # Docker integration for code execution
+│   │   ├── auth/           # Authentication module
+│   │   ├── database/       # Database and queue configuration
+│   │   └── guard/          # Authorization guards
+│   ├── config/             # Application configuration
+│   └── main.ts             # Application entry point
+├── sandbox/                # Docker container configurations for code execution
+│   ├── golang/             # Go execution environment
+│   ├── nodejs/             # Node.js execution environment
+│   └── python/             # Python execution environment
+└── Docker-compose.yml      # Docker Compose configuration for services
+```
+
+## Development
+
+### Testing
+
+Run tests:
+
+```bash
+yarn test
+# or
+npm run test
+```
+
+Run end-to-end tests:
+
+```bash
+yarn test:e2e
+# or
+npm run test:e2e
+```
+
+### Building Docker Images for Code Execution
+
+To build the Docker images for code execution:
+
+```bash
+# For all languages
+sh script/build-images.sh
+
+# For Go specifically
+sh script/build-images-go.sh
+```
 
 ## License
 
-Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).
+[UNLICENSED]

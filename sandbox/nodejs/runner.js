@@ -7,7 +7,7 @@ const process = require('process');
 const codeFileName = process.argv[2] || 'game.js';
 
 const inputFilePath = path.join('/sandbox/input', codeFileName);
-const outputFilePath = path.join('/sandbox/output', 'output.json');
+const outputFilePath = path.join('/sandbox/output', 'result.json');
 
 // Read the code file
 

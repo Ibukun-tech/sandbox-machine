@@ -19,6 +19,9 @@ const exec = promisify(childProcess.exec);
 const mkdir = promisify(fs.mkdir);
 const writeFile = promisify(fs.mkdir);
 const readFile = promisify(fs.readFile);
+// const unlink = promisify(fs.unlink);
+// const rmDir = promisify(fs.rmdir);
+const rm = promisify(fs.rm);
 @Injectable()
 export class DockerService {
   private readonly logger = new Logger(DockerService.name);
@@ -38,6 +41,14 @@ export class DockerService {
   }
   async executeCode(dto: executeCodeDto) {
     const { executionId, code, language, timeout } = dto;
+    const fileExtensions = {
+      nodejs: 'js',
+      python: 'py',
+      golang: 'go',
+    };
+    const extension = fileExtensions[language] || 'txt';
+    // const extension = fileExtensions[language] ||
+    const codeFilename = `code.${extension}`;
 
     // Create directories for this execution
     // const executionDir = path.join(this.baseDir, executionId);
@@ -46,14 +57,7 @@ export class DockerService {
     try {
       await mkdir(inputDir, { recursive: true });
       await mkdir(outputDir, { recursive: true });
-      const fileExtensions = {
-        nodejs: 'js',
-        python: 'py',
-        golang: 'go',
-      };
-      const extension = fileExtensions[language] || 'txt';
-      // const extension = fileExtensions[language] ||
-      const codeFilename = `code.${extension}`;
+
       await writeFile(path.join(inputDir, codeFilename), code);
       const images = {
         nodejs: 'code-executor-nodejs:latest',
@@ -86,15 +90,10 @@ export class DockerService {
 
       return result;
     } catch (error) {
-    } finally {
+      this.logger.error(error);
+      throw error;
     }
   }
-
-  // private async ensureBaseDir() {
-  //   try{
-  //     await mkdir(this.baseDir, { recursive: true });
-  //     this.logger.log(`Base directory created ${this.baseDir}`);
-  //    }catch(error){} }
 
   private buildDockerCommand(dto: dockerCommand): string {
     const { executionId, inputDir, outputDir, codeFilename, image, timeout } =
@@ -113,5 +112,16 @@ export class DockerService {
           --security-opt no-new-privileges \
           ${image} \
           "${codeFilename}"`;
+  }
+  async cleanUpExecution(executionId: string) {
+    try {
+      await exec(`docker stop ${executionId} --time=1`);
+
+      const executionDir = path.join(this.baseDir, executionId);
+      await rm(executionDir, { recursive: true, force: true });
+      this.logger.log(`Execution $`);
+    } catch (error) {
+      this.logger.error(`Error cleaning up execution ${executionId}`);
+    }
   }
 }

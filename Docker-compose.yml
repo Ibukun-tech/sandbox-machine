@@ -1,0 +1,27 @@
+version: '3.8'
+
+services:
+  postgres:
+    container_name: SandBox_DB
+    image: postgres:latest
+    ports:
+      - 5432:5432
+    volumes:
+      - postDataSandBox:/var/lib/postgresql/data
+    environment:
+      POSTGRES_USER: root
+      POSTGRES_PASSWORD: secret
+
+  redis:
+    container_name: SandBox_RD_DB
+    image: redis:latest
+    ports:
+      - 6379:6379
+    volumes:
+      - redisData:/data
+    command: redis-server --appendonly yes
+    restart: always
+
+volumes:
+  postDataSandBox:
+  redisData:
